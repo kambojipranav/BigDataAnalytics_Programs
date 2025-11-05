@@ -1,31 +1,23 @@
+#!/usr/bin/env python
 import sys
 
-current_year = None
-current_year_temps = []
-min_avg_temp = float('inf')
-coolest_year = None
+year_min = {}
 
 for line in sys.stdin:
-	line = line.strip()
-	year, temperature_str = line.split('\t')
-	temperature = float(temperature_str)
-	
+    year, temp = line.strip().split("\t")
+    temp = int(temp)
 
-	if current_year == year:
-		current_year_temps.append(temperature)
-	else:
-		if current_year is not None:
-			avg_temp = sum(current_year_temps) / len(current_year_temps)
-			if avg_temp < min_avg_temp:
-				min_avg_temp = avg_temp
-				coolest_year = current_year
-		current_year = year
-		current_year_temps = [temperature]
-if current_year is not None:
-	avg_temp = sum(current_year_temps) / len(current_year_temps)
-	if avg_temp < min_avg_temp:
-		min_avg_temp = avg_temp
-		coolest_year = current_year
+    # track the minimum temperature for each year
+    if year not in year_min or temp < year_min[year]:
+        year_min[year] = temp
 
-if coolest_year is not None:
-	print("The coolest year is: %s with an average temperature of: %s" % (coolest_year,min_avg_temp))
+# print coolest year & its minimum temperature
+coolest_year = None
+coolest_temp = None
+
+for y in year_min:
+    if coolest_temp is None or year_min[y] < coolest_temp:
+        coolest_temp = year_min[y]
+        coolest_year = y
+
+print "%s\t%d" % (coolest_year, coolest_temp)
