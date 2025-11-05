@@ -1,18 +1,12 @@
+#!/usr/bin/env python
 import sys
 
-curr_bigram = None
-curr_count = 0
-for line in sys.stdin:
-	line = line.strip()
-	bigram, count = line.split('\t',1)
-	count = int(count)
-	if curr_bigram == bigram:
-		curr_count += count
-	else:
-		if curr_bigram:
-			print('%s\t%s' % (curr_bigram, curr_count))
-		curr_bigram = bigram
-		curr_count = count
+d = {}
 
-if curr_bigram:
-	print('%s\t%s' % (curr_bigram, curr_count))
+for line in sys.stdin:
+    bigram, count = line.strip().split("\t")
+    count = int(count)
+    d[bigram] = d.get(bigram, 0) + count   # accumulate
+
+for k in d:
+    print "%s\t%d" % (k, d[k])
