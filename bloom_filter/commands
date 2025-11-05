@@ -1,5 +1,0 @@
-in windows:
-type elements.txt | python bloomfilter.py > output.txt
-
-in Cloudera:
-cat elements.txt | python bloomfilter.py > output.txt
