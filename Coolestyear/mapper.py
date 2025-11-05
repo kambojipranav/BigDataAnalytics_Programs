@@ -1,16 +1,11 @@
-
+#!/usr/bin/env python
 import sys
 
 for line in sys.stdin:
-	line = line.strip()
-	parts = line.split(',')
+    line = line.strip()
+    if not line:
+        continue
 
-	if len(parts) >= 2:
-		year = parts[0].strip()
-		year = year.split("-")[0]
-		temperature = parts[1].strip()
-		try:
-			float(temperature)
-			print("%s\t%s" % (year,temperature))
-		except ValueError:
-			continue
+    date, temp = line.split()
+    year = date.split("-")[0]   # extract year
+    print "%s\t%s" % (year, temp)
